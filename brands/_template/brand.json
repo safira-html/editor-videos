@@ -1,0 +1,56 @@
+{
+ "_sobre": "Estilo fixo da marca. NAO edite este arquivo para uma marca real: rode ./ev brand --slug <marca> ... (scripts/new_brand.py), que copia esta pasta, valida e preenche. Ver docs/09-onboarding-de-marca.md e docs/06-marcas.md.",
+ "output_size": [
+  1080,
+  1920
+ ],
+ "speed": 1.25,
+ "look": "none",
+ "max_pause": 0.45,
+ "pad_before_speech": 0.1,
+ "pad_after_speech": 0.15,
+ "silence_db": -35,
+ "loudness_lufs": -14,
+ "captions": {
+  "font_file": "fonts/SUA-FONTE.ttf",
+  "weight": "Bold",
+  "size": 32,
+  "stroke": 6,
+  "pos_x": 50,
+  "pos_y": 60,
+  "color": "#FFFFFF",
+  "stroke_color": "#030303",
+  "max_words": 4,
+  "max_gap": 0.65,
+  "max_width": 0.875,
+  "min_on_screen": 0.55,
+  "proper_nouns": [],
+  "keep_together": []
+ },
+ "_fine_print": "remova o '_' da chave abaixo se a marca tiver letras miúdas",
+ "_fine_print_exemplo": {
+  "file": "fine-print.txt",
+  "size": 21,
+  "weight": "SemiBold",
+  "max_width": 0.9,
+  "margin_bottom": 56,
+  "color": "#FFFFFF",
+  "alpha": 225,
+  "shade_alpha": 150
+ },
+ "_logo_exemplo": {
+  "file": "logo/logo.png",
+  "width": 200,
+  "top": 80,
+  "shadow": true,
+  "shadow_alpha": 0.45
+ },
+ "sound_defaults": {
+  "target_lufs": -14,
+  "music_db": -27,
+  "tick_db": -22,
+  "dropout_db": -30,
+  "music_presence": 0,
+  "_leveling": "trilha em 'presence' e efeitos em 'lu' (nivel percebido, docs/05-som.md 4a). Remova 'music_presence' para voltar ao metodo antigo (music_db)."
+ }
+}

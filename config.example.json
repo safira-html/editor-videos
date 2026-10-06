@@ -1,0 +1,11 @@
+{
+ "_leia": "Copie para config.json (ou rode ./ev setup, que faz isso). É o único arquivo que muda de máquina para máquina e não vai para o git.",
+ "whisper_python": "~/.cache/editor-videos/venv/bin/python",
+ "_whisper_python": "Python com faster-whisper + numpy + Pillow. O ./ev setup cria esse venv. Aceita ~ e caminho relativo à raiz do projeto.",
+ "whisper_model": "mobiuslabsgmbh/faster-whisper-large-v3-turbo",
+ "_whisper_model": "Modelo da transcrição (~1,6 GB, baixado do Hugging Face na primeira vez).",
+ "hf_offline": true,
+ "_hf_offline": "true = nunca acessa a rede para o modelo (exige o modelo já em cache). Em máquina nova rode ./ev setup --download-model, que baixa com hf_offline desligado só naquela execução.",
+ "downloads_dir": "~/Downloads",
+ "_downloads_dir": "Onde os brutos (C2556.MP4 etc.) costumam chegar. O plan.json de cada vídeo guarda o caminho do bruto em 'source'."
+}

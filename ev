@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Atalho unico: ./ev setup|transcribe|edit|variants|qa|audio|brand|tick ...
+# Cada subcomando roda scripts/<x>.py; os que precisam de numpy/Whisper passam pelo venv (config.json).
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT"
+
+usage() {
+  cat <<'USAGE'
+Usage: ./ev <command> [args...]
+
+  setup [--check] [--download-model]   prepare (or verify) ffmpeg, the Python venv and config.json
+  transcribe <video> <project_dir>     word-level transcript (faster-whisper)
+  edit <plan.json> [--dry|--remix]     cut, speed, color, captions, logo, fine print, sound
+  variants <plan.json> [--list] [--jobs N]   hook x body x CTA combinations
+  qa <video.mp4> [--sheet]             machine QA of a finished video
+  audio <subcommand> ...               sound measurements (inspect | beat | vocals | words | mix)
+  tick <tick.mp3> <out.wav> <bpm> <phase> <duration> <windows.json>   tick-tock bed locked to the music BPM
+  brand [--list] --slug ...            scaffold a new brand (see docs/09-onboarding-de-marca.md)
+USAGE
+}
+
+cmd="${1:-}"
+[ $# -gt 0 ] && shift || true
+
+case "$cmd" in
+  setup)       exec python3 scripts/setup.py "$@" ;;
+  transcribe)  exec python3 scripts/venv_run.py scripts/transcribe.py "$@" ;;
+  edit)        exec python3 scripts/venv_run.py scripts/edit.py "$@" ;;
+  variants)    exec python3 scripts/venv_run.py scripts/variants.py "$@" ;;
+  qa)          exec python3 scripts/venv_run.py scripts/qa.py "$@" ;;
+  audio)       exec python3 scripts/venv_run.py scripts/audio_tools.py "$@" ;;
+  tick)        exec python3 scripts/venv_run.py scripts/tick_bed.py "$@" ;;
+  brand)       exec python3 scripts/venv_run.py scripts/new_brand.py "$@" ;;
+  ""|-h|--help|help) usage ;;
+  *) echo "Unknown command: $cmd" >&2; usage >&2; exit 2 ;;
+esac

@@ -1,0 +1,28 @@
+# Cada video e uma pasta de trabalho local; so o template vai para o git
+projects/*/
+!projects/_template/
+output/*
+!output/.gitkeep
+
+# Maquina
+config.json
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Midia (cada pessoa gera a sua; as marcas guardam so SONS.md)
+*.mp3
+*.wav
+*.mp4
+*.mov
+*.MP4
+*.MOV
+
+# Preview de marca e folhas de contato geradas
+brands/*/preview.png
+*_contato.jpg
+
+# Mas mantem
+!.gitkeep
+!SONS.md

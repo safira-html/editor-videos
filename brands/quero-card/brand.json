@@ -1,0 +1,79 @@
+{
+ "_sobre": "Estilo fixo do Quero Card (cartão de benefícios de saúde) para anúncio com apresentador. Criado em 2026-09-25 a pedido da Safira; mesmo cenário e enquadramento do Clube, então look, velocidade, posição da legenda e do logo são herdados dele.",
+ "output_size": [
+  1080,
+  1920
+ ],
+ "speed": 1.25,
+ "look": "natural",
+ "max_pause": 0.45,
+ "pad_before_speech": 0.1,
+ "pad_after_speech": 0.15,
+ "silence_db": -35,
+ "loudness_lufs": -14,
+ "captions": {
+  "size": 32,
+  "pos_x": 50,
+  "pos_y": 60,
+  "weight": "SemiBold",
+  "stroke": 6,
+  "stroke_color": "#030303",
+  "color": "#A6F200",
+  "max_words": 4,
+  "max_gap": 0.65,
+  "max_width": 0.875,
+  "min_on_screen": 0.55,
+  "proper_nouns": [
+   "Quero",
+   "Card",
+   "Loteria",
+   "Federal"
+  ],
+  "keep_together": [
+   "Quero Card",
+   "R$ 9,90",
+   "9,90",
+   "25 mil reais",
+   "25 mil",
+   "plano de saúde",
+   "Loteria Federal",
+   "número da sorte",
+   "24 horas",
+   "Saiba Mais",
+   "QueroCard Pro",
+   "R$ 24,90",
+   "R$ 49,90",
+   "80%",
+   "70%",
+   "10 mil"
+  ],
+  "font_file": "fonts/Poppins-SemiBold.ttf"
+ },
+ "logo": {
+  "file": "logo/logo-darkbg.png",
+  "width": 340,
+  "top": 80,
+  "shadow": true,
+  "shadow_alpha": 0.45
+ },
+ "sound_defaults": {
+  "target_lufs": -14,
+  "music_db": -27,
+  "tick_db": -22,
+  "dropout_db": -30,
+  "_nota": "usados quando o plano do vídeo não diz: trilha a -27 (a Safira baixou de -17 → -24 → -27 no C2556); tic-tac -22; dropout -30. Efeitos pontuais precisam de 'db' explícito (hierarquia A/B/C).",
+  "_leveling": "trilha em 'presence' (0 = tão presente sobre a voz quanto o Clube aprovado, medido em 1–8 kHz; grave acima do Clube é cortado) e efeitos em 'lu' (quanto SOAM em relação à voz, loudness momentânea máx), não relativos ao pico. Ver docs/05-som.md §4. Safira 2026-09-25 (Allevo v1): 'não dá p ouvir a trilha… precisa melhorar o método de interpretar os decibéis de cada som'",
+  "music_presence": 0,
+  "music_hits": {
+   "cuidado-100bpm-a.mp3": 39.14,
+   "cuidado-100bpm-b.mp3": 40.2
+  },
+  "_music_hits": "segundo (na faixa) do último ataque forte, medido com audio_tools.py beat; usado por music[].align_end nas variações"
+ },
+ "_por_que": {
+  "captions": "Safira 2026-09-25: 'cor do traçado mantém mas preenchimento rgba(166, 242, 0, 1)' (= #A6F200), 'fonte Poppins SemiBold' (arquivo estático, o peso vem do arquivo)",
+  "fine_print": "Safira 2026-09-25: 'sem letras miúdas'",
+  "logo": "Safira 2026-09-25: 'Logo - Quero Card0 1' (versão para fundo escuro). Wordmark horizontal 5,3:1 — 340px de largura dá ~64px de altura",
+  "look": "mesmo cenário do Clube (parede verde + estante) → mesmo look natural"
+ }
+}

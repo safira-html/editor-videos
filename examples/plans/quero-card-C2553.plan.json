@@ -1,0 +1,134 @@
+{
+ "brand": "quero-card",
+ "source": "~/Downloads/C2553.MP4",
+ "output_name": "C2553_editado_v2.mp4",
+ "keep": [
+  [
+   7.7,
+   46.8
+  ],
+  [
+   51.05,
+   60.9
+  ]
+ ],
+ "_keep": "0-7,6 antes da fala (ruído de set, sem transcrição); 7,7-46,8 gancho → problema → solução → preço, take único e limpo; 47,0-49,2 falso início → fica o take de 51,05 (o Whisper marca 50,58, mas a fala medida começa em 51,09); 51,05-60,9 retomada completa + CTA; 61+ sobra depois do roteiro",
+ "captions": {
+  "text_fixes": [
+   {
+    "from": "QueroCard",
+    "to": "Quero Card",
+    "why": "a marca se escreve Quero Card"
+   },
+   {
+    "from": "\\bPRO\\b",
+    "to": "Pro",
+    "regex": true,
+    "why": "nome do plano: Pro"
+   },
+   {
+    "from": "R \\$ ?(\\d+) ?,(\\d+)",
+    "to": "R$ \\1,\\2",
+    "regex": true,
+    "why": "Whisper separa 'R', '$', '24', ',90' em tokens; o preço se escreve R$ 24,90"
+   }
+  ],
+  "keep_together": [
+   "Quero Card",
+   "R$ 9,90",
+   "9,90",
+   "25 mil reais",
+   "25 mil",
+   "plano de saúde",
+   "Loteria Federal",
+   "número da sorte",
+   "R $ 24 ,90",
+   "24 horas",
+   "Saiba Mais",
+   "QueroCard Pro"
+  ],
+  "_keep_together": "lista da marca (brand.json) + 'R $ 24 ,90', '24 horas', 'Saiba Mais', 'QueroCard Pro' (o Whisper escreve a marca num token só; sem isso sai 'no Quero Card / Pro, exames'): o --dry quebrou essas unidades (o Whisper separa o preço em 'R', '$', 'NN', ',90'). Lista no plano SUBSTITUI a da marca — promover estas expressões para brands/quero-card/brand.json e apagar daqui"
+ },
+ "sound": {
+  "target_lufs": -14,
+  "music": [
+   {
+    "file": "cuidado-100bpm-a.mp3",
+    "from": 0,
+    "to": 37.05,
+    "offset": 2.84,
+    "fade_out": 0.3,
+    "why": "trilha da campanha; o ataque de 39,14s cai em 'incluído nisso' (36,3s)",
+    "presence": 0
+   }
+  ],
+  "dropouts": [
+   {
+    "from": 11.7,
+    "to": 11.95,
+    "why": "micro-silêncio antes do A"
+   }
+  ],
+  "sfx": [
+   {
+    "path": "tick_bed.wav",
+    "at": 0,
+    "length": 37.05,
+    "tail": 0.05,
+    "db": -24,
+    "why": "C · 'depois eu vejo, e deixar para outro mês': o tempo passa, no BPM da trilha"
+   },
+   {
+    "file": "90-01-riser.mp3",
+    "at": 10.55,
+    "length": 1.4,
+    "tail": 0.05,
+    "why": "A · sobe até 'O Quero Card Pro…'",
+    "lu": -9
+   },
+   {
+    "file": "whoosh-b.mp3",
+    "at": 11.83,
+    "length": 0.5,
+    "tail": 0.1,
+    "why": "A · a virada para a solução em 'O Quero Card Pro…'",
+    "lu": -9
+   },
+   {
+    "file": "impact-b.mp3",
+    "at": 11.95,
+    "length": 0.6,
+    "tail": 0.3,
+    "why": "A · 'O Quero Card Pro…': impact macio, o maior som do vídeo",
+    "lu": -8
+   },
+   {
+    "file": "video-call-a.mp3",
+    "at": 16.87,
+    "length": 1.0,
+    "tail": 0.2,
+    "why": "B · 'telemedicina pelo celular 24 horas'",
+    "lu": -11
+   },
+   {
+    "file": "savings-a.mp3",
+    "at": 25.0,
+    "length": 0.8,
+    "tail": 0.2,
+    "why": "C · 'já com preço reduzido'",
+    "lu": -13
+   },
+   {
+    "file": "tap-b.mp3",
+    "offset": 0.22,
+    "at": 34.46,
+    "length": 0.15,
+    "tail": 0.1,
+    "why": "B · CTA 'toque em Saiba Mais'",
+    "lu": -19.5
+   }
+  ],
+  "_ausencias": "sem efeito em 'do seu bolso' — moeda caindo soaria como ganho, não como gasto; sem som no preço (R$ 24,90) — o preço é dito, não celebrado",
+  "_v2": "2026-09-25: trilha em 'presence' 0 (paridade com o Clube em 1–8 kHz sobre esta voz) e efeitos em 'lu' (percebido em relação à voz) no lugar de 'db' relativo ao pico — a trilha da v1 não se ouvia"
+ }
+}

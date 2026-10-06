@@ -1,0 +1,125 @@
+{
+ "brand": "clube-da-virada",
+ "source": "~/Downloads/C2559.MP4",
+ "output_name": "C2559_editado_v2.mp4",
+ "keep": [
+  [
+   11.0,
+   35.55
+  ],
+  [
+   41.75,
+   51.75
+  ],
+  [
+   65.45,
+   72.75
+  ]
+ ],
+ "_keep": "0-10,5 aquecimento e claquete; 36,1-40,6 primeiro take da frase do 'dia 30' e pedido para refazer → fica o 2º take (41,9); 55-65,6 conversa de set no meio; 74,9+ sobra depois do roteiro",
+ "sound": {
+  "target_lufs": -14,
+  "music": [
+   {
+    "file": "urgencia-126bpm-a.mp3",
+    "from": 0.56,
+    "to": 31.06,
+    "offset": 0,
+    "db": -27,
+    "fade_out": 0.3,
+    "why": "vídeo maior que a faixa: a trilha entra em 0,56s para o hit final (29,99s) cair em 'sorteio' (30,55s)"
+   }
+  ],
+  "dropouts": [
+   {
+    "from": 8.3,
+    "to": 9.15,
+    "db": -30,
+    "why": "'está fora': tic-tac e trilha param juntos; a trilha volta em 'mas calma que ainda dá tempo'"
+   },
+   {
+    "from": 18.6,
+    "to": 18.82,
+    "db": -30,
+    "why": "micro-silêncio antes do A"
+   }
+  ],
+  "sfx": [
+   {
+    "file": "impact-b.mp3",
+    "at": 0.0,
+    "length": 0.6,
+    "tail": 0.4,
+    "db": -18,
+    "why": "B · gancho 'último dia': soft impact + sub no primeiro frame"
+   },
+   {
+    "path": "tick_bed.wav",
+    "at": 0,
+    "length": 31.0,
+    "tail": 0.05,
+    "db": -22,
+    "why": "C · 'às 11h59 de hoje encerra o prazo… à meia-noite…': o relógio corre e dobra no fim"
+   },
+   {
+    "file": "downer-b.mp3",
+    "at": 8.32,
+    "length": 1.2,
+    "tail": 0.2,
+    "db": -16,
+    "why": "B · 'está fora': o timer acabou"
+   },
+   {
+    "file": "90-02-ding.mp3",
+    "at": 13.13,
+    "length": 0.5,
+    "tail": 0.6,
+    "db": -20,
+    "why": "C · 'número da sorte adicional'"
+   },
+   {
+    "file": "90-02-ding.mp3",
+    "at": 15.79,
+    "length": 0.5,
+    "tail": 0.6,
+    "db": -23,
+    "why": "C · 'vale mais um': o segundo número, mais baixo"
+   },
+   {
+    "file": "90-01-riser.mp3",
+    "at": 17.42,
+    "length": 1.4,
+    "tail": 0.05,
+    "db": -17,
+    "why": "A · 'dia 30, os 25 mil…' sobe até o prêmio"
+   },
+   {
+    "file": "impact-b.mp3",
+    "at": 18.82,
+    "length": 0.9,
+    "tail": 0.3,
+    "db": -13,
+    "why": "A · 'os 25 mil vão para a conta de alguém': o maior som"
+   },
+   {
+    "file": "tap-b.mp3",
+    "offset": 0.22,
+    "at": 22.39,
+    "length": 0.15,
+    "tail": 0.1,
+    "db": -16,
+    "why": "B · CTA 'toque no botão abaixo'"
+   }
+  ],
+  "_ausencias": "sem impact em 'sua resposta pode valer 25 mil reais' (28,2s) — o A já aconteceu; o hit da trilha fecha em 'sorteio'"
+ },
+ "captions": {
+  "text_fixes": [
+   {
+    "from": "11h59",
+    "to": "23h59",
+    "why": "o prazo da campanha é 23h59 (o apresentador diz 'onze e cinquenta e nove'); a legenda escreve o horário certo — o áudio continua errado"
+   }
+  ]
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "brand": "clube-da-virada",
+ "source": "~/Downloads/CXXXX.MP4",
+ "output_name": "CXXXX_editado_v1.mp4",
+ "keep": [[0.0, 0.0]],
+ "_keep": "o que saiu e por quê (claquete, falso início, qual take ficou)",
+ "captions": {"text_fixes": []},
+ "sound": {
+  "target_lufs": -14,
+  "music": [{"file": "urgencia-126bpm-a.mp3", "from": 0, "to": 0.0, "offset": 0, "db": -27, "fade_out": 0.3, "why": "hit final (29,99s) alinhado na última palavra"}],
+  "dropouts": [],
+  "sfx": [],
+  "_ausencias": ""
+ }
+}

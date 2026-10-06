@@ -1,0 +1,100 @@
+{
+ "brand": "allevo-tech",
+ "source": "~/Downloads/C2548.MP4",
+ "output_name": "C2548_editado_v2.mp4",
+ "keep": [
+  [
+   9.1,
+   36.5
+  ],
+  [
+   107.1,
+   125.3
+  ]
+ ],
+ "_keep": "0-8,8 título do vídeo dito em voz alta (claquete); 9,2-36,4 gancho + problema, take único e limpo; 36,7-43,9 1º take da solução, interrompido; 49-50,8 conversa de set; 51,8-77,2 2º take da solução + CTA com tropeço; 80-105,5 discussão do roteiro entre takes → fica o último take completo da solução + CTA (107,2-125,1); 126,4+ sobra depois do roteiro",
+ "captions": {
+  "text_fixes": [
+   {
+    "from": "Levotec",
+    "to": "Allevo Tech",
+    "why": "Whisper escreve 'Levotec'; a marca é Allevo Tech"
+   },
+   {
+    "from": "\\be analista",
+    "to": "em analista",
+    "regex": true,
+    "why": "Whisper ouviu 'formação e analista'; o roteiro diz 'formação em analista de dados'"
+   }
+  ],
+  "force_lowercase": [
+   "Legal",
+   "Porque",
+   "Ter",
+   "Você"
+  ],
+  "_force_lowercase": "Whisper abriu segmento com maiúscula sem ponto antes ('e ouvir Legal,', 'Porque decidir', 'Ter algo', 'Você pode') → a regra do cofre leria como nome próprio"
+ },
+ "sound": {
+  "target_lufs": -14,
+  "music": [
+   {
+    "file": "carreira-112bpm-a.mp3",
+    "from": 0,
+    "to": 34.92,
+    "offset": 4.43,
+    "fade_out": 0.3,
+    "why": "trilha da campanha; o ataque forte de 38.96s cai na última palavra (34.53s)",
+    "presence": 0
+   }
+  ],
+  "dropouts": [
+   {
+    "from": 3.3,
+    "to": 5.45,
+    "why": "'legal, mas o que você já fez na área?': a pergunta do entrevistador cai no vazio"
+   },
+   {
+    "from": 20.55,
+    "to": 20.8,
+    "why": "micro-silêncio antes do A"
+   }
+  ],
+  "sfx": [
+   {
+    "file": "90-01-riser.mp3",
+    "at": 19.4,
+    "length": 1.4,
+    "tail": 0.05,
+    "why": "A · sobe até 'Na formação…'",
+    "lu": -8
+   },
+   {
+    "file": "whoosh-b.mp3",
+    "at": 20.68,
+    "length": 0.5,
+    "tail": 0.1,
+    "why": "A · a virada para a solução em 'Na formação…'",
+    "lu": -8
+   },
+   {
+    "file": "impact-b.mp3",
+    "at": 20.8,
+    "length": 0.7,
+    "tail": 0.3,
+    "why": "A · 'Na formação…': o maior som do vídeo, uma vez só",
+    "lu": -6
+   },
+   {
+    "file": "achievement-b.mp3",
+    "at": 25.4,
+    "length": 0.7,
+    "tail": 0.2,
+    "why": "C · 'recebe certificados'",
+    "lu": -13
+   }
+  ],
+  "_ausencias": "sem tap: o CTA é 'conheça a formação', não há botão falado; sem som em 'portfólio' — a conquista já foi marcada nos certificados",
+  "_v2": "2026-09-25: trilha em 'presence' 0 (paridade com o Clube em 1–8 kHz sobre esta voz) e efeitos em 'lu' (percebido em relação à voz) no lugar de 'db' relativo ao pico — a trilha da v1 não se ouvia"
+ }
+}

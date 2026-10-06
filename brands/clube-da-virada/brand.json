@@ -1,0 +1,79 @@
+{
+ "_sobre": "Estilo fixo do Clube da Virada para anúncio em vídeo com apresentador. Aprovado pela Safira no C2556 (v6) em 2026-09-24. Cada plan.json de vídeo herda daqui e só sobrescreve o que for dele.",
+ "output_size": [
+  1080,
+  1920
+ ],
+ "speed": 1.25,
+ "look": "natural",
+ "max_pause": 0.45,
+ "pad_before_speech": 0.1,
+ "pad_after_speech": 0.15,
+ "silence_db": -35,
+ "loudness_lufs": -14,
+ "captions": {
+  "size": 32,
+  "pos_x": 50,
+  "pos_y": 60,
+  "weight": "ExtraBold",
+  "stroke": 6,
+  "stroke_color": "#030303",
+  "color": "#FFFFFF",
+  "max_words": 4,
+  "max_gap": 0.65,
+  "max_width": 0.875,
+  "min_on_screen": 0.55,
+  "proper_nouns": [
+   "Clube",
+   "Virada"
+  ],
+  "keep_together": [
+   "Responda a Pesquisa",
+   "25 mil reais",
+   "25 mil",
+   "23h59",
+   "dia 30",
+   "número da sorte",
+   "Clube da Virada",
+   "números da sorte",
+   "30 de setembro",
+   "meia-noite"
+  ],
+  "font_file": "fonts/Nunito.ttf"
+ },
+ "fine_print": {
+  "file": "fine-print.txt",
+  "size": 21,
+  "weight": "SemiBold",
+  "max_width": 0.9,
+  "margin_bottom": 56,
+  "color": "#FFFFFF",
+  "alpha": 225,
+  "shade_alpha": 150
+ },
+ "logo": {
+  "file": "logo/logo-branco.png",
+  "width": 200,
+  "top": 80,
+  "shadow": true,
+  "shadow_alpha": 0.45
+ },
+ "sound_defaults": {
+  "target_lufs": -14,
+  "music_db": -27,
+  "tick_db": -22,
+  "dropout_db": -30,
+  "_nota": "usados quando o plano do vídeo não diz: trilha a -27 (a Safira baixou de -17 → -24 → -27 no C2556); tic-tac -22; dropout -30. Efeitos pontuais precisam de 'db' explícito (hierarquia A/B/C).",
+  "music_hits": {
+   "urgencia-126bpm-a.mp3": 29.99
+  },
+  "_music_hits": "segundo (na faixa) do último ataque forte, medido com audio_tools.py beat; usado por music[].align_end nas variações"
+ },
+ "_por_que": {
+  "speed": "Safira 2026-09-24: 'deixa por padrão aumentar sempre a velocidade pra 1.25x'",
+  "look": "escolhido entre 3 opções lado a lado (C2556 v2)",
+  "logo": "logo branco contrasta com a parede verde; 400px → 200px ('metade do tamanho'); topo do cabelo nunca passa de ~320px",
+  "fine_print": "texto legal verbatim, centralizado no rodapé em todo anúncio do Clube",
+  "captions": "padrão de legenda de um cofre de notas privado do autor, em branco, sem cor de personagem"
+ }
+}
