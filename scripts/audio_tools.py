@@ -125,6 +125,10 @@ def cmd_words(plan_path, keys):
         print(f"  {E.remap(w['s'], segs) / sp:6.2f}-{E.remap(w['e'], segs) / sp:6.2f}  {w['t']}")
 
 
+# voz − fundo por oitava (125 Hz … 8 kHz) no Clube aprovado (C2556 v6, medido em 2026-09-25)
+CLUBE_REF = [2.5, 22.1, 30.5, 21.9, 18.6, 7.8, 7.8]
+
+
 def cmd_mix(project):
     mix = load(os.path.join(project, "mix_pre.wav"))
     voice_path = os.path.join(project, "stage_voice.wav")
@@ -135,18 +139,21 @@ def cmd_mix(project):
     vv = v[:n] * g
     print(f"trilha+efeitos ficam {db(vv) - db(bed):.1f} dB abaixo da voz (RMS do vídeo inteiro)")
 
-    def audible(x):  # só acima de 200 Hz: o que o celular reproduz (o subgrave engana o RMS)
-        f = np.fft.rfft(x)
-        f[: int(200 * len(x) / SR)] = 0
-        return np.fft.irfft(f, len(x))
-    hop = SR // 2
-    ab, av = audible(bed), audible(vv)
-    k = len(ab) // hop
-    eb = np.array([db(ab[i * hop:(i + 1) * hop]) for i in range(k)])
-    ev = np.array([db(av[i * hop:(i + 1) * hop]) for i in range(k)])
-    speech = ev > ev.max() - 20  # meios-segundos com fala
-    print(f"acima de 200 Hz, durante a fala: fundo {np.median(ev[speech] - eb[speech]):.1f} dB abaixo da voz "
-          f"(mediana; Clube aprovado C2556 v6 = referência — compare)")
+    plan0 = json.load(open(os.path.join(project, "plan.json"), encoding="utf-8"))
+    mus = plan0.get("sound", {}).get("music", [])
+    lo, hi = (int(mus[0].get("from", 0) * SR), int(min(mus[0].get("to", 1e9), n / SR) * SR)) if mus else (0, n)
+    # por oitava, só onde a trilha toca: quanto a voz está acima do fundo (menor = fundo mais presente)
+    bands = [125, 250, 500, 1000, 2000, 4000, 8000]
+    ref = dict(zip(bands, CLUBE_REF))
+    f_v, f_b = np.abs(np.fft.rfft(vv[lo:hi])) ** 2, np.abs(np.fft.rfft(bed[lo:hi])) ** 2
+    fr = np.fft.rfftfreq(hi - lo, 1 / SR)
+    row = []
+    for c in bands:
+        m = (fr >= c / 1.414) & (fr < c * 1.414)
+        row.append(10 * np.log10(f_v[m].sum() + 1e-9) - 10 * np.log10(f_b[m].sum() + 1e-9))
+    print(f"voz − fundo por oitava, só onde a trilha toca ({lo / SR:.1f}–{hi / SR:.1f}s); entre parênteses o Clube aprovado (C2556 v6):")
+    print("   " + "  ".join(f"{c if c < 1000 else str(c // 1000) + 'k'}: {r:5.1f} ({ref[c]:4.1f})" for c, r in zip(bands, row)))
+    print("   → número MENOR que o do Clube = fundo mais presente que o aprovado; mais de ~3 dB abaixo em 1–8k pede `presence` negativo")
     plan = json.load(open(os.path.join(project, "plan.json"), encoding="utf-8"))
     snd = plan.get("sound", {})
     for d in snd.get("dropouts", []):

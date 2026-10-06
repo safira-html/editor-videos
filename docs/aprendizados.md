@@ -37,6 +37,8 @@ Correção que fica só na conversa volta na próxima sessão — por isso este 
 | 19 | 2026-09-25 | 10 vídeos | *"gere os áudios de acordo com as narrativas: sfx em momentos que precisam, trilha que faça sentido com o assunto"* | uma trilha por marca (Allevo 112 BPM tech · Quero 100 BPM acústica) + efeitos narrativos; madrugada (C2551, C2554) sem trilha até a virada | brands/*/sound/SONS.md · plan.json |
 | 20 | 2026-09-25 | — | *"demorando, né? bora"* | paralelizar: transcrição 3 por vez, cortes por agentes, render 3 por vez | este arquivo |
 | 21 | 2026-09-25 | Allevo v1 | *"não dá p ouvir a trilha de allevo tech no fundo, precisa melhorar o método de interpretar os decibéis de cada som para equilibrar"* | trilha em `presence` (paridade com o Clube em 1–8 kHz sobre a voz, com corte de grave) e efeitos em `lu` (percebido); v2 das 10 só remixando o som (`--remix`, 2,4s cada) | edit.py · 05-som.md §4a · brand.json `sound_defaults` |
+| 22 | 2026-10-06 | 05ECAE3A v1 | *"ele fala 'ADS01' como identificação de qual anúncio é e você coloca 'Edson'… nem era para aparecer"* | a claquete falada saiu da legenda (v2 corta o início no silêncio antes de "você"); o agente de corte tinha avisado que "Edson" era leitura incerta (p 0,7; 5 de 12 releituras) e eu transformei isso em `text_fix` fixo — regra nova: leitura incerta antes do roteiro = claquete até prova em contrário, **pergunte** | docs/02-cortes.md · plan.json |
+| 23 | 2026-10-06 | 05ECAE3A, E17837EB | *"tire a trilha do 05ECAE3A / remova a trilha do E17837EB, deixando só sfx"* ("não precisa mudar nos que já têm; só não faça nos próximos") | v2 dos dois sem trilha, só efeitos; vale só para esses dois — os próximos voltam ao som completo | plan.json `sound.music: []` |
 
 ## Descobertas técnicas
 
@@ -69,6 +71,10 @@ Correção que fica só na conversa volta na próxima sessão — por isso este 
 | T24 | loudness total (mesmo acima de 200 Hz) quase não separa a Allevo do Clube (26,6 × 25,5 dB abaixo da voz); a diferença está **por oitava**: 1 kHz −28,5 × −24,5, 4 kHz −16,9 × −12,1, 8 kHz −24,3 × −16,1 | presença = soma em potência de (trilha − voz) nas oitavas 1–8 kHz |
 | T25 | pico igual ≠ volume igual: com pico a −1 dBFS a loudness momentânea dos efeitos vai de −4,5 (cachorro) a −30 (impact, que é subgrave) | efeito nivelado por loudness momentânea máx (`lu`) |
 | T26 | 2026-10-06: o ambiente Python do Whisper desapareceu (o venv de um projeto vizinho, de que o `config.json` dependia, sumiu) e nada rodava | `scripts/setup.py` (`./ev setup`) cria um venv próprio em `~/.cache/editor-videos/venv`; o `venv_run.py` aceita `~` e caminho relativo e, sem `config.json`, copia o `config.example.json` e manda rodar o setup; `./ev setup --check` verifica tudo sem instalar |
+| T27 | Whisper no arquivo inteiro **alucinou nos falsos inícios** (juntou o 1º take ao 2º e sumiu com palavras do 2º; esticou "pessoa" e "mercado" por segundos) — duas gravações de celular de 1,5–2,5 min | reconstruir `words.json` retranscrevendo cada take como clip curto (`faster-whisper`, beam 5, VAD off); guardar o original em `words.orig.json` |
+| T28 | ruído de sala de celular/escritório fica acima de −35 dB: `silencedetect` achou 4–6 pausas no arquivo todo | `silence_db: −28` no plan.json do vídeo (docs/02-cortes.md) |
+| T29 | o `presence` (soma de 1–8 kHz) calibra pela voz: voz de celular tem pouco agudo (4–8 kHz), então a trilha da Allevo Tech ficou 3–5 dB mais presente que a do Clube nos médios (250 Hz–2 kHz) | `./ev audio mix` agora imprime voz − fundo por oitava, só onde a trilha toca, com o Clube ao lado; se mascarar a voz, `music_presence: −3` no brand.json |
+| T30 | a posição da legenda depende do enquadramento: selfie de busto (queixo ~50–55%) pede `pos_y` 62; close-up (queixo 69–76%) pede 80 | medir queixo/cabelo em ~24 quadros antes de fixar `captions.pos_y` (o plano guarda a medição em `_framing`) |
 
 ## Pendências conhecidas
 

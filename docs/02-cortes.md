@@ -29,6 +29,26 @@ sessão) entender a edição sem assistir ao bruto.
 
 No C2556: 63s de bruto → 10 trechos → 38,3s → **30,6s** a 1,25x.
 
+## Claquete falada: nunca vai para a legenda
+
+Antes do roteiro, quem grava costuma **dizer qual anúncio é** ("ADS01", "ad 3", "esse aqui é o quinto
+ad do Quero Card, número 1"). Isso é identificação de arquivo, não roteiro: não entra na legenda nem
+no áudio. O Whisper lê a sigla como um nome de pessoa ("ADS01" virou "Edson"), então:
+
+- **desconfie da primeira palavra do primeiro take** quando a probabilidade (`p` no `words.json`) é
+  menor que ~0,9, ou quando é um nome próprio solto antes de "você…" — confira antes de legendar;
+- o jeito de provar: `silencedetect` mostra uma rajada curta (0,3–1s) entre dois silêncios, antes da
+  primeira frase do roteiro; transcreva só esse trecho (`faster-whisper` num clip) e/ou **pergunte**;
+- **na dúvida, não legende e pergunte** — nunca transforme uma leitura incerta em `text_fix`. Texto
+  fixo com maiúscula é a pior saída: ele passa por cima do aviso de baixa confiança;
+- corte o início do `keep` no silêncio entre a claquete e a primeira palavra do roteiro.
+
+## Sala com ruído: `silence_db`
+
+O limiar padrão (−35 dB) pressupõe estúdio. Em selfie/escritório o ruído de sala fica acima dele e
+o `silencedetect` quase não acha pausa (nenhuma seria encurtada, o vídeo sai ~6s mais longo). Meça o
+piso de ruído e ponha `"silence_db"` no plan.json do vídeo (−28 funcionou nas gravações de celular).
+
 ## Jump cut
 
 Em anúncio falado, o pulo de imagem na emenda é aceito — é a linguagem do formato. Não tente
