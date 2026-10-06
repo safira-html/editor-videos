@@ -10,6 +10,7 @@ começam com `_` são comentário (o script ignora) — use-os para registrar o 
 |---|---|---|---|
 | `brand` | vídeo | `"clube-da-virada"` | qual `brands/<marca>/` usar |
 | `source` | vídeo | `"~/Downloads/C2558.MP4"` | o bruto |
+| `output_subdir` | vídeo | `"2026-10-06"` | agrupa uma leva: o vídeo sai em `output/<marca>/<subpasta>/` (opcional; sem ele sai direto em `output/<marca>/`) |
 | `output_name` | vídeo | `"C2558_editado_v1.mp4"` | sai em `output/<marca>/`; suba o `_vN` a cada ajuste |
 | `keep` | vídeo | `[[40.30, 51.45], [96.30, 104.45]]` | takes que ficam, em ordem (bordas encostam no silêncio) |
 | `keep_window` | vídeo | `[13.95, 55.75]` | alternativa a `keep` quando é um trecho só |

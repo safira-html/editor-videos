@@ -112,14 +112,14 @@ def estimate(plan, keep):
     return sum(b - a for a, b in keep) / plan.get("speed", 1.25)
 
 
-def run_one(plan_path, output, brand, extra, qa):
+def run_one(plan_path, output, brand, extra, qa, plan):
     cmd = [sys.executable, os.path.join(SCRIPTS, "edit.py"), plan_path, *extra]
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
         return output, False, "edit.py failed: " + (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["?"])[-1]
     if "--dry" in extra:
         return output, True, r.stdout
-    out_path = os.path.join(ROOT, "output", brand, output)
+    out_path = os.path.join(ROOT, "output", brand, plan.get("output_subdir", ""), output)
     if not qa:
         return output, True, "rendered (QA skipped)"
     q = subprocess.run([sys.executable, os.path.join(SCRIPTS, "qa.py"), out_path, "--sheet"], capture_output=True, text=True)
@@ -156,7 +156,7 @@ def main():
     brand = plan["brand"]
     qa = "--no-qa" not in args
     with ThreadPoolExecutor(max_workers=jobs) as pool:
-        futures = [pool.submit(run_one, p, out, brand, extra, qa) for p, out, _ in derived]
+        futures = [pool.submit(run_one, p, out, brand, extra, qa, plan) for p, out, _ in derived]
         results = [f.result() for f in futures]
     print()
     failed = 0

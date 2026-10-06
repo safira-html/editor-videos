@@ -710,7 +710,7 @@ def main():
             print(f"  {b['start']:6.2f}-{b['end']:6.2f}  {b['text']}")
         return
 
-    out_dir = os.path.join(ROOT, "output", plan["brand"])
+    out_dir = os.path.join(ROOT, "output", plan["brand"], plan.get("output_subdir", ""))  # e.g. "2026-10-06" groups a batch
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, plan["output_name"])
     fine_png = os.path.join(work, "fine_print.png")
