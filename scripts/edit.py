@@ -457,6 +457,28 @@ def peak(path):
     return float(re.search(r"max_volume: (-?[\d.]+) dB", out).group(1))
 
 
+def true_peak(path):
+    """True peak (dBTP, inter-sample) of a file."""
+    out = subprocess.run(["ffmpeg", "-i", path, "-af", "ebur128=peak=true", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    return float(re.search(r"Peak:\s+(-?[\d.]+) dBFS", out[out.rfind("Summary"):]).group(1))
+
+
+def master_audio(src, dst, target_lufs, ceiling=-1.3):
+    """Gain to the target loudness, then a limiter tightened step by step until the TRUE peak is under the ceiling.
+
+    The sample-peak limiter alone (0.84) leaves inter-sample overshoot (voice-only video 5919FD0B: -0.6 dBTP,
+    QA wants <= -1.0) and the AAC encode adds a little more, hence the margin in `ceiling`.
+    """
+    g = target_lufs - loudness(src)
+    for limit in (0.84, 0.78, 0.72, 0.66, 0.60):
+        subprocess.run(["ffmpeg", "-y", "-i", src, "-af", f"volume={g:.2f}dB,alimiter=limit={limit}:level=false", dst],
+                       check=True, stderr=subprocess.DEVNULL)
+        if true_peak(dst) <= ceiling:
+            break
+    return dst
+
+
 # referências da Rotina 8 do cofre (mix_episode.py): o dB do plano é relativo a elas
 VOICE_REF_LUFS = -18.8
 MUSIC_REF_LUFS = -12.0
@@ -643,9 +665,7 @@ def mix_sound(voice_wav, sound, duration, out_wav, work):
     filters.append(f"{''.join(labels)}amix=inputs={len(labels)}:duration=first:normalize=0[mix]")
     subprocess.run(["ffmpeg", "-y", *inputs, "-filter_complex", ";".join(filters), "-map", "[mix]",
                     "-ar", "48000", "-ac", "2", pre], check=True, stderr=subprocess.DEVNULL)
-    g = sound.get("target_lufs", -14) - loudness(pre)
-    subprocess.run(["ffmpeg", "-y", "-i", pre, "-af", f"volume={g:.2f}dB,alimiter=limit=0.84:level=false",
-                    out_wav], check=True, stderr=subprocess.DEVNULL)
+    master_audio(pre, out_wav, sound.get("target_lufs", -14))
     return out_wav
 
 
@@ -759,9 +779,7 @@ def main():
         sound = apply_sound_defaults(sound, plan.get("sound_defaults", {}), duration)
         mix_sound(voice, sound, duration, final_audio, work)
     else:
-        g = plan.get("loudness_lufs", -14) - loudness(voice)
-        subprocess.run(["ffmpeg", "-y", "-i", voice, "-af", f"volume={g:.2f}dB,alimiter=limit=0.84:level=false",
-                        final_audio], check=True, stderr=subprocess.DEVNULL)
+        master_audio(voice, final_audio, plan.get("loudness_lufs", -14))
     subprocess.run(["ffmpeg", "-y", "-i", stage, "-i", final_audio, "-map", "0:v", "-map", "1:a",
                     "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart",
                     out], check=True, stderr=subprocess.DEVNULL)
