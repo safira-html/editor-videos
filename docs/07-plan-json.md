@@ -10,6 +10,7 @@ começam com `_` são comentário (o script ignora) — use-os para registrar o 
 |---|---|---|---|
 | `brand` | vídeo | `"clube-da-virada"` | qual `brands/<marca>/` usar |
 | `source` | vídeo | `"~/Downloads/C2558.MP4"` | o bruto |
+| `framing` | vídeo | `{"zoom": 1.2, "anchor_x": 0.45, "anchor_y": 1.0}` | zoom fixo: recorta 1/zoom do quadro e volta ao tamanho de saída. `anchor_y` 1.0 ancora embaixo — corta a parede vazia acima da cabeça, então o rosto **sobe** e cresce (a janela não desce abaixo do quadro, por isso o ganho de subida é limitado: com zoom 1,2 o rosto sobe no máximo 320px). Acima de ~1,35 só cresce e perde nitidez (upscale). Ao mudar o quadro, refaça o `captions.pos_y` |
 | `output_subdir` | vídeo | `"2026-10-06"` | agrupa uma leva: o vídeo sai em `output/<marca>/<subpasta>/` (opcional; sem ele sai direto em `output/<marca>/`) |
 | `output_name` | vídeo | `"C2558_editado_v1.mp4"` | sai em `output/<marca>/`; suba o `_vN` a cada ajuste |
 | `keep` | vídeo | `[[40.30, 51.45], [96.30, 104.45]]` | takes que ficam, em ordem (bordas encostam no silêncio) |

@@ -40,6 +40,7 @@ Correção que fica só na conversa volta na próxima sessão — por isso este 
 | 22 | 2026-10-06 | 05ECAE3A v1 | *"ele fala 'ADS01' como identificação de qual anúncio é e você coloca 'Edson'… nem era para aparecer"* | a claquete falada saiu da legenda (v2 corta o início no silêncio antes de "você"); o agente de corte tinha avisado que "Edson" era leitura incerta (p 0,7; 5 de 12 releituras) e eu transformei isso em `text_fix` fixo — regra nova: leitura incerta antes do roteiro = claquete até prova em contrário, **pergunte** | docs/02-cortes.md · plan.json |
 | 23 | 2026-10-06 | 05ECAE3A, E17837EB | *"tire a trilha do 05ECAE3A / remova a trilha do E17837EB, deixando só sfx"* ("não precisa mudar nos que já têm; só não faça nos próximos") | v2 dos dois sem trilha, só efeitos; vale só para esses dois — os próximos voltam ao som completo | plan.json `sound.music: []` |
 | 24 | 2026-10-08 | 5919FD0B | (QA da máquina reprovou o pico: −0,6 dBTP, limite −1,0) | `edit.py` agora mede o **pico verdadeiro** do áudio final e aperta o limitador (0,84 → 0,78 → … → 0,60) até ficar ≤ −1,3 dBTP; vale para os dois caminhos (com e sem som) | scripts/edit.py `master_audio` |
+| 25 | 2026-10-08 | 5919FD0B, 991D76A8 | *"enquadra melhor dando um zoom e deixando o rosto mais posicionado para cima, e deixa mais devagar (avaliando se 1x ou 1,1x)"* | `framing` (zoom fixo ancorado embaixo): zoom 1,2 e 1,3; `pos_y` caiu de 81→76 e 87→82; velocidade pelo ritmo de fala: 5919FD0B 1,1x, 991D76A8 1,0x | plan.json · docs/07 |
 
 ## Descobertas técnicas
 
@@ -78,6 +79,8 @@ Correção que fica só na conversa volta na próxima sessão — por isso este 
 | T30 | a posição da legenda depende do enquadramento: selfie de busto (queixo ~50–55%) pede `pos_y` 62; close-up (queixo 69–76%) pede 80 | medir queixo/cabelo em ~24 quadros antes de fixar `captions.pos_y` (o plano guarda a medição em `_framing`) |
 | T31 | o limitador de pico de amostra (`alimiter limit=0.84`) deixa overshoot entre amostras: vídeo só com voz saiu com −0,6 dBTP e o AAC ainda acrescenta um pouco | `master_audio`: mede `ebur128=peak=true` e reaperta o limitador; margem de 0,3 dB sobre o limite do QA |
 | T32 | `edit.py` com vários takes em `keep` e `remove`: o corte vale para todas as janelas (não só a do take) e a linha do tempo estoura | não usar `remove` com vários takes; para tirar um trecho, quebre o `keep` em dois takes |
+| T33 | ritmo de fala medido (palavras/min do vídeo editado, pausas já encurtadas): Clube aprovado a 1,25x = 184–221; apresentadores novos a 1,0x = 166–184 | para decidir a velocidade de um apresentador novo, calcule pal/min a 1,0x e escolha a velocidade que fecha ≈184 (o C2556, aprovado mais calmo); 991D76A8 (184 a 1,0x) fica em 1,0x, 5919FD0B (166) em 1,1x |
+| T34 | enquadramento "rosto mais para cima" tem teto geométrico: a janela do zoom não desce abaixo do quadro | com o rosto baixo (cabelo ≥35%), zoom 1,3 sobe o cabelo de ~38% para ~20% e o queixo de ~76% para ~68%; simule o recorte nos piores quadros antes de renderizar |
 
 ## Pendências conhecidas
 

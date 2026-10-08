@@ -425,6 +425,21 @@ def render_fine_print(cfg, path, width, height):
     return lines
 
 
+def crop_filter(framing):
+    """Static zoom: crop 1/zoom of the frame and let the scale step bring it back to the output size.
+
+    framing = {"zoom": 1.25, "anchor_x": 0.5, "anchor_y": 1.0}
+      anchor_x: 0 = window at the left edge, 0.5 = centered, 1 = right edge
+      anchor_y: 0 = window at the top, 1 = at the bottom. With the face low in the frame, anchor_y 1.0 cuts the
+      empty wall above the head, so the face moves UP as well as grows (a window cannot go below the frame).
+    """
+    if not framing or framing.get("zoom", 1.0) <= 1.0:
+        return ""
+    z, ax, ay = framing["zoom"], framing.get("anchor_x", 0.5), framing.get("anchor_y", 1.0)
+    w, h = f"trunc(iw/{z}/2)*2", f"trunc(ih/{z}/2)*2"
+    return f"crop={w}:{h}:(iw-{w})*{ax}:(ih-{h})*{ay},"
+
+
 def render_logo(cfg, overlay_path, width):
     """Logo centralizado no topo, sobre a camada estática (rodapé). Sombra suave para leitura."""
     from PIL import ImageFilter
@@ -752,7 +767,8 @@ def main():
         labels += f"[v{i}][a{i}]"
     parts.append(f"{labels}concat=n={len(segs)}:v=1:a=1[vc][ac]")
     # ordem do cofre: acelera primeiro, legenda depois (legenda já está no tempo acelerado)
-    parts.append(f"[vc]setpts=PTS/{speed},fps=30000/1001,scale={width}:{height}:flags=lanczos,setsar=1,{look}[vs]")
+    parts.append(f"[vc]setpts=PTS/{speed},fps=30000/1001,{crop_filter(plan.get('framing'))}"
+                 f"scale={width}:{height}:flags=lanczos,setsar=1,{look}[vs]")
     parts.append("[1:v]format=rgba[cap]")
     parts.append("[2:v]format=rgba[fine]")
     parts.append("[vs][fine]overlay=0:0:format=auto[vf]")
